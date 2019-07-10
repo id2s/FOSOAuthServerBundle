@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace FOS\OAuthServerBundle\Controller;
 
+use FOS\OAuthServerBundle\Event\TokenEvent;
 use OAuth2\OAuth2;
 use OAuth2\OAuth2ServerException;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,14 +35,22 @@ class TokenController
     }
 
     /**
+     * @param EventDispatcherInterface $eventDispatcher
      * @param Request $request
      *
      * @return Response
      */
-    public function tokenAction(Request $request)
+    public function tokenAction(EventDispatcherInterface $eventDispatcher, Request $request)
     {
         try {
-            return $this->server->grantAccessToken($request);
+            $response = $this->server->grantAccessToken($request);
+
+            $event = $this->eventDispatcher->dispatch(
+                TokenEvent::TOKEN_SUCCESS,
+                new TokenEvent($request->request->all()['username'])
+            );
+
+            return $response;
         } catch (OAuth2ServerException $e) {
             return $e->getHttpResponse();
         }
