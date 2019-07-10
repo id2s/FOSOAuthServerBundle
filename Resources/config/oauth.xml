@@ -25,6 +25,7 @@
 
         <service id="FOS\OAuthServerBundle\Controller\TokenController" class="FOS\OAuthServerBundle\Controller\TokenController">
             <argument type="service" id="fos_oauth_server.server" />
+            <argument type="service" id="event_dispatcher" />
         </service>
 
         <service id="fos_oauth_server.controller.token" alias="FOS\OAuthServerBundle\Controller\TokenController" public="true" />

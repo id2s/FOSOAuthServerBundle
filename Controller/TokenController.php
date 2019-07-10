@@ -28,20 +28,25 @@ class TokenController
     protected $server;
 
     /**
+     * EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * @param OAuth2 $server
      */
-    public function __construct(OAuth2 $server)
+    public function __construct(OAuth2 $server, EventDispatcherInterface $eventDispatcher)
     {
         $this->server = $server;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
-     * @param EventDispatcherInterface $eventDispatcher
      * @param Request $request
      *
      * @return Response
      */
-    public function tokenAction(EventDispatcherInterface $eventDispatcher, Request $request)
+    public function tokenAction(Request $request)
     {
         try {
             $response = $this->server->grantAccessToken($request);
