@@ -16,6 +16,7 @@ namespace FOS\OAuthServerBundle\Controller;
 use FOS\OAuthServerBundle\Event\TokenEvent;
 use OAuth2\OAuth2;
 use OAuth2\OAuth2ServerException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
